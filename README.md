@@ -1,0 +1,1 @@
+# feathers-rest-proxy service
