@@ -14,6 +14,7 @@ options =
 proxyService = require 'feathers-rest-proxy'
 app.use '/proxymessages', proxyService options
 ```
+Note that `options` above is an object and `baseURL` is the only mandatory key. See below for other configuration options.
 
 ## Configurations
 The configuration object provided to the service is passed directly to `axios`  which is used under the hood to make HTTP requests to the remote API server from Node. `baseURL` is the only required parameter. 
