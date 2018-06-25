@@ -8,9 +8,27 @@ This service allows the use of `feathers` as a proxy to access existing API endp
 
 In your service declaration file
 ```livescript
+endpoint = 'https://jsonplaceholder.typicode.com/users'
 options =
-  baseURL: 'http://178.62.75.46:4000/api/bulksms/sms'
-  timeout: 1000
+	baseURL: endpoint
+	timeout: 5000  
+	requestOkInterceptor: (config) ->
+	  console.log 'requestOkInterceptor request'
+	  # Do something with response data and resolve promise
+	  return config
+	requestErrorInterceptor: (error) ->
+	  console.log 'requestErrorInterceptor error', error
+	  # Do something with response error and reject promise
+	  return Promise.reject error
+	responseOkInterceptor: (response) ->
+	  # For response schema See https://github.com/axios/axios#response-schema
+	  {data, config} = response
+	  # Format remote API server response to match feathers service response
+	  console.log 'responseOkInterceptor response', response
+	responseErrorInterceptor: (error) ->
+	  console.log 'responseErrorInterceptor error', error
+	  # Do something with response error and reject promise
+	  return Promise.reject error
 proxyService = require 'feathers-rest-proxy'
 app.use '/proxymessages', proxyService options
 ```
