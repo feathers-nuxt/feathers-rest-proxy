@@ -63,3 +63,4 @@ form.append 'fileName', fs.createReadStream('file.ext'), filename: "file.csv", c
 proxyupload = await @app.services.proxyuploads.create form, headers: form.getHeaders!
 ```
 
+https://gist.github.com/joyrexus/524c7e811e4abf9afe56
