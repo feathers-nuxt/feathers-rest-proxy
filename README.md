@@ -3,14 +3,15 @@
 This service allows the use of `feathers` as a proxy to access existing API endpoinds or other external systems. 
 
 ## Usage 
-> Code snippets below are in `livescript` but its just `javascript` minus unnecessary noise. 
-<!-- Leave out the semicolons, const, var, let, braces, brackets will be added by the transpiler. -->
+> Code snippets below are in `livescript` but its just fancy `javascript`. 
 
 In your service declaration file
 ```livescript
-endpoint = 'https://jsonplaceholder.typicode.com/users'
+endpoint = 
+proxyService = require 'feathers-rest-proxy'
 options =
-  baseURL: endpoint
+  baseURL: 'https://jsonplaceholder.typicode.com'
+  resourceURL: 'users'
   timeout: 5000  
   requestOkInterceptor: (config) ->
     console.log 'requestOkInterceptor request'
@@ -28,7 +29,6 @@ options =
   responseErrorInterceptor: (error) ->
     console.log 'responseErrorInterceptor error', error
     return Promise.reject error
-proxyService = require 'feathers-rest-proxy'
 app.use '/proxymessages', proxyService options
 ```
 Note that `options` above is an object and `baseURL` is the only mandatory key. See below for other configuration options.
@@ -50,7 +50,7 @@ proxymessage = await @app.services.proxymessages.create notification
 > On the browser, `service.create` works best with JSON paylods.
 
 ### Content-Type
-JSON payloads will automatically be formated to a `url-encoded` string using [querystrin](https://nodejs.org/api/querystring.html) and sent with the request header content type set to `application/x-www-form-urlencoded`. While this will suffice for most cases, your API may require a different `Content-Type`. Simply set `params.query.contentType` to `"multipart/form-data"` and pass `params` as second argument to `service.create`. This will set the request header as specified and envelop the JSON payload in a FormData Object to send to the endpoint.
+JSON payloads will automatically be formated to a `url-encoded` string using [querystring](https://nodejs.org/api/querystring.html) and sent with the request header content type set to `application/x-www-form-urlencoded`. While this will suffice for most cases, your API may require a different `Content-Type`. Simply set `params.query.contentType` to `"multipart/form-data"` and pass `params` as second argument to `service.create`. This will set the request header as specified and envelop the JSON payload in a FormData Object to send to the endpoint.
 
 ### File Uploads
 To send files as part of the payload, you may either send [Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob)s within a JSON payload or pass a `FormData` Object as the payload to `service.create`. Ensure you set the contentType to `"multipart/form-data"`, otherwise the default content type will be used and the files will NOT be uploaded to the remote API.
@@ -75,9 +75,8 @@ form = new FormData
 form.append 'fileName', (require 'fs').createReadStream('file.ext'), meta
 proxyupload = await @app.services.proxyuploads.create form, params # Ensure you pass along params
 ```
-:::Tip
-While converting JSON to FormData, `form.append` is called with two parameters unlike above. You may include file metadata in the JSON payload under the key `meta` as an object whose keys are filenames and values are similar to fileMeta above. This will call `form.append` with three parameters as above.
-:::
+> While converting JSON to FormData, `form.append` is called with two parameters unlike above. You may include file metadata in the JSON payload under the key `meta` as an object whose keys are filenames and values are similar to fileMeta above. This will call `form.append` with three parameters as above.
+
 
 
 

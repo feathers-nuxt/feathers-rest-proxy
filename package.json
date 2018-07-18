@@ -2,7 +2,7 @@
   "name": "feathers-rest-proxy",
   "version": "1.0.0",
   "description": "A feathers service to provide real-time proxy to a REST API endpoint",
-  "main": "lib/",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,9 +19,12 @@
   "homepage": "https://github.com/feathers-nuxt/feathers-rest-proxy#readme",
   "dependencies": {
     "@feathersjs/errors": "^3.3.0",
+    "@feathersjs/authentication-jwt": "^2.0.0",
+    "@feathersjs/authentication-local": "^1.2.1",
     "axios": "^0.18.0",
     "debug": "^3.1.0",
     "form-data": "^2.3.2",
+    "passport-custom": "^1.0.5",
     "uberproto": "^2.0.3"
   }
 }
