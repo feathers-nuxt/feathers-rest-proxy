@@ -1,6 +1,6 @@
 {
   "name": "@feathers-nuxt/feathers-rest-proxy",
-  "version": "1.0.1-beta.1",
+  "version": "1.0.1-beta.2",
   "description": "A feathers service to provide real-time proxy to a REST API endpoint",
   "main": "index.js",
   "scripts": {
